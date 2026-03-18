@@ -40,21 +40,46 @@ namespace API_Lobanov.Controllers
         /// <remarks>Данный метод получает задачу, находящуюся в базе данных</remarks>
         ///  <response code="200">Задача успешно получена</response>
         ///  <response code="500">При выполнении запроса возникли ошибки</response>
-        [Route("Item")] // указываем какой метод вызывается
-        [HttpGet] // указываем какой тип запроса используется
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(Tasks), 200)]
-        public ActionResult Item(int Id)
+        [ProducesResponseType(404)]
+        public IActionResult GetTaskById(int id)
         {
             try
             {
-                // Получаем задачу по коду
-                Tasks Task = new TaskContext().Tasks.Where(x => x.Id == Id).First();
-                return Json(Task); // возвращаем ответ в виде Json
+                Tasks task = new TaskContext().Tasks
+                    .FirstOrDefault(x => x.Id == id);
+
+                if (task == null)
+                    return NotFound("Задача не найдена");
+
+                return Json(task);
             }
-            catch (Exception exp)
+            catch (Exception)
             {
-                return StatusCode(500); // если возникли неполадки, выдаём 500 ошибку (ошибку сервера)
+                return StatusCode(500);
             }
         }
+        [HttpGet("search")]
+        [ProducesResponseType(typeof(List<Tasks>), 200)]
+        public IActionResult SearchTasks(string search)
+        {
+            try
+            {
+                List<Tasks> tasks = new TaskContext().Tasks
+                    .Where(x => x.Name.Contains(search))
+                    .ToList();
+
+                if (tasks.Count == 0)
+                    return NotFound("Задачи не найдены");
+
+                return Json(tasks);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
     }
 }
