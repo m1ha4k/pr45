@@ -21,7 +21,7 @@ namespace API_Lobanov
                     Description = "Полное руководство для использования запросов находящихся в проекте"
                 });
 
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, "ASP_GET.xml");
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "API_Lobanov.xml");
                 c.IncludeXmlComments(filePath);
             });
         }

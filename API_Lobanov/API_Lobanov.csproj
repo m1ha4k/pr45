@@ -6,9 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Context\" />
-    <Folder Include="Pages\Controllers\" />
-    <Folder Include="Pages\Models\" />
+    <Compile Remove="Pages\**" />
+    <Content Remove="Pages\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Context\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
