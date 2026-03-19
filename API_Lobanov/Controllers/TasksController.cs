@@ -8,6 +8,7 @@ using System.Linq;
 namespace API_Lobanov.Controllers
 {
     [Route("api/TasksController")] // указываем раздел
+    [ApiExplorerSettings(GroupName = "v1")]
     public class TasksController : Controller
     {
         /// <summary>
