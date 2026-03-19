@@ -42,7 +42,7 @@ namespace API_Lobanov.Controllers
         ///  <response code="500">При выполнении запроса возникли ошибки</response>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Tasks), 200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public IActionResult GetTaskById(int id)
         {
             try
@@ -66,6 +66,11 @@ namespace API_Lobanov.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(search))
+                {
+                    return BadRequest("Поисковый запрос не может быть пустым");
+                }
+
                 List<Tasks> tasks = new TaskContext().Tasks
                     .Where(x => x.Name.Contains(search))
                     .ToList();
@@ -75,11 +80,10 @@ namespace API_Lobanov.Controllers
 
                 return Json(tasks);
             }
-            catch (Exception)
+            catch (Exception exp)
             {
-                return StatusCode(500);
+                return StatusCode(500, exp.Message);
             }
         }
-
     }
 }
