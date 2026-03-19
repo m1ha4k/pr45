@@ -1,4 +1,5 @@
 ﻿using System;
+using API_Lobanov.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Lobanov.Context
@@ -6,8 +7,9 @@ namespace API_Lobanov.Context
     public class UsersContext : DbContext
     {
         public DbSet<Users> Users { get; set; }
-        public UsersContext() { 
-        Database.EnsureCreated();
+        public UsersContext() 
+        { 
+            Database.EnsureCreated();
             Users.Load();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
