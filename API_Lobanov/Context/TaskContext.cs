@@ -16,9 +16,9 @@ namespace API_Lobanov.Context
         {
             optionsBuilder.UseMySql("server=127.0.0.1;" +
                 "uid=root;" +
-                "port=3307;" +
+                "port=3306;" +
                 "pwd=;" +
-                "database=TaskManager",
+                "database=TaskContext",
                 new MySqlServerVersion(new Version(8, 0, 11))
                 );
         }

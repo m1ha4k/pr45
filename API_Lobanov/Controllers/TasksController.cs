@@ -111,6 +111,34 @@ namespace API_Lobanov.Controllers
                 return StatusCode(500);
             }
         }
-        
+        [Route("Update")]
+        [HttpPut]
+        [ApiExplorerSettings(GroupName = "v3")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public ActionResult Update(int id, [FromForm] Tasks updatedtask)
+        {
+            try
+            {
+                TaskContext tasksContext = new TaskContext();
+                var existingTask = tasksContext.Tasks.Find(id);
+                if (existingTask == null)
+                {
+                    return StatusCode(500);
+                }
+                existingTask.Name = updatedtask.Name;
+                existingTask.Priority = updatedtask.Priority;
+                existingTask.DateExecute = updatedtask.DateExecute;
+                existingTask.Comment = updatedtask.Comment;
+                existingTask.Done = updatedtask.Done;
+
+                tasksContext.SaveChanges();
+                return StatusCode(200);
+            }
+            catch (Exception exp)
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
