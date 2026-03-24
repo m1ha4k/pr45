@@ -140,5 +140,59 @@ namespace API_Lobanov.Controllers
                 return StatusCode(500);
             }
         }
+        /// <summary>
+        /// Метод удаления задачи
+        /// </summary>
+        /// <param name="Id">Код задачи</param>
+        /// <remarks>Данный метод удлаяет задачу из базы данных</remarks>
+        ///  <response code="200">Задача успешно удалена</response>
+        ///  <response code="500">При выполнении запроса возникли ошибки</response>
+        [Route("DeleteById")]
+        [HttpDelete]
+        [ApiExplorerSettings(GroupName = "v4")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public ActionResult DeleteById(int id)
+        {
+            try
+            {
+                TaskContext context = new TaskContext();
+                Tasks task = context.Tasks.Where(x => x.Id == id).First();
+                context.Tasks.Remove(task);
+                context.SaveChanges();
+                return StatusCode(200);
+            }
+            catch (Exception exp)
+            {
+                return StatusCode(500);
+            }
+        }
+        /// <summary>
+        /// Метод полной очистки таблицы от данных
+        /// </summary>
+        /// <param name="Id">Код задачи</param>
+        /// <remarks>Данный метод полностью очищает таблицу</remarks>
+        ///  <response code="200">Задача успешно удалена</response>
+        ///  <response code="500">При выполнении запроса возникли ошибки</response>
+        [Route("DeleteAll")]
+        [HttpDelete]
+        [ApiExplorerSettings(GroupName = "v4")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public ActionResult DeleteAll()
+        {
+            try
+            {
+                TaskContext context = new TaskContext();
+                var tasks = context.Tasks.ToList();
+                context.Tasks.RemoveRange(tasks);
+                context.SaveChanges();
+                return StatusCode(200);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
